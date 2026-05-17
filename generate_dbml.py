@@ -2,6 +2,7 @@
 import argparse
 import os
 import sys
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -21,7 +22,7 @@ def load_env(env: str) -> dict:
         "DB_PASSWORD": os.getenv("DB_PASSWORD", ""),
         "DB_NAME": os.getenv("DB_NAME", ""),
         "DB_TYPE": os.getenv("DB_TYPE", "mysql").lower(),
-        "OUTPUT_FILE": os.getenv("OUTPUT_FILE", f"schema_{env}.dbml"),
+        "OUTPUT_DIR": os.getenv("OUTPUT_DIR", "output"),
     }
 
 
@@ -199,7 +200,11 @@ def main():
 
     db_type = config["DB_TYPE"]
     db_name = config["DB_NAME"]
-    output_file = config["OUTPUT_FILE"]
+    output_dir = Path(config["OUTPUT_DIR"])
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    output_file = output_dir / f"{db_name}_{timestamp}.dbml"
+
+    output_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"[dbml-generator] Environment : {env}")
     print(f"[dbml-generator] Database    : {db_type}://{db_name}")
@@ -222,7 +227,7 @@ def main():
         print(f"\nError while inspecting schema:\n  {exc}")
         sys.exit(1)
 
-    Path(output_file).write_text(dbml_content, encoding="utf-8")
+    output_file.write_text(dbml_content, encoding="utf-8")
 
     print()
     print("=" * 40)

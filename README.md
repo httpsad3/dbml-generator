@@ -71,7 +71,7 @@ Then edit the values in each file.
 | `DB_PASSWORD` | Yes*     | —                     | Database password. Ignored for SQLite.           |
 | `DB_NAME`     | Yes      | —                     | Database name (or file path for SQLite).         |
 | `DB_TYPE`     | Yes      | `mysql`               | One of: `mysql`, `postgresql`, `sqlite`.         |
-| `OUTPUT_FILE` | No       | `schema_{env}.dbml`   | Path/name of the generated file.                 |
+| `OUTPUT_DIR`  | No       | `output`              | Directory where `.dbml` files are saved.         |
 
 *Not required for SQLite.
 
@@ -122,10 +122,10 @@ python generate_dbml.py --env staging
   Tables       : 12
   Columns      : 87
   References   : 10
-  Output file  : schema_local.dbml
+  Output file  : output/myapp_dev_2026-05-16_21-45-30.dbml
 ========================================
 
-Done! Paste the contents of 'schema_local.dbml' into https://dbdiagram.io
+Done! Paste the contents of 'output/myapp_dev_2026-05-16_21-45-30.dbml' into https://dbdiagram.io
 ```
 
 ---
